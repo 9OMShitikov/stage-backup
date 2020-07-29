@@ -1,7 +1,13 @@
 roaringIndex
 =============
  This Go package provides the ability to index objects with given properties. Package uses [roaring bitmaps](https://roaringbitmap.org) for indexing.
+ 
+ #### Installation
+ 
+   - go get -t github.com/neganovalexey/bitmap-search/...
+ 
  ### Example
+ 
  ```go
 package main
 
