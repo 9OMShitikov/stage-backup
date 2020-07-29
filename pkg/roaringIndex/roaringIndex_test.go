@@ -56,8 +56,8 @@ func TestIndex_WithAll_Simple(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		testname := fmt.Sprint("with all from ", test.query, ":")
-		t.Run(testname, func(t *testing.T) {
+		testName := fmt.Sprint("with all from ", test.query, ":")
+		t.Run(testName, func(t *testing.T) {
 			ans := test_index.WithAll(test.query...)
 			if !equalStringSetsWithRAsInterfacesWithoutDup(test.results, ans) {
 				t.Error("expected ", test.results, ", got ", ans)
@@ -86,8 +86,8 @@ func TestIndex_WithAny_Simple(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		testname := fmt.Sprint("with any from ", test.query, ":")
-		t.Run(testname, func(t *testing.T) {
+		testName := fmt.Sprint("with any from ", test.query, ":")
+		t.Run(testName, func(t *testing.T) {
 			ans := test_index.WithAny(test.query...)
 			if !equalStringSetsWithRAsInterfacesWithoutDup(test.results, ans) {
 				t.Error("expected ", test.results, ", got ", ans)
@@ -117,8 +117,8 @@ func TestIndex_WithoutAny_Simple(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		testname := fmt.Sprint("without any of ", test.query, ":")
-		t.Run(testname, func(t *testing.T) {
+		testName := fmt.Sprint("without any of ", test.query, ":")
+		t.Run(testName, func(t *testing.T) {
 			ans := test_index.WithoutAny(test.query...)
 			if !equalStringSetsWithRAsInterfacesWithoutDup(test.results, ans) {
 				t.Error("expected ", test.results, ", got ", ans)
