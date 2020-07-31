@@ -1,7 +1,8 @@
-package bitmapFileIndex
+package bitmapFileIndex_test
 
 import (
 	"fmt"
+	. "github.com/neganovalexey/bitmap-search/pkg/bitmapFileIndex"
 	"io/ioutil"
 	"os"
 	"testing"

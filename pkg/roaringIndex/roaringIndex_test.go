@@ -1,7 +1,8 @@
-package roaringIndex
+package roaringIndex_test
 
 import (
 	"fmt"
+	. "github.com/neganovalexey/bitmap-search/pkg/roaringIndex"
 	"testing"
 )
 
