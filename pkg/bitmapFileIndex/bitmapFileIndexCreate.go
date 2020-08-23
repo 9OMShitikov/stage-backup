@@ -13,7 +13,6 @@ func nonWordSymbol(r rune) bool {
 }
 
 func CreateFileIndex (filenames ...string) (FileIndex, error) {
-//	filesWords := make([][]string, len(filenames))
 	filesWithWords := make([]roaringIndex.IndexedObject, len(filenames))
 
 	for i, name := range filenames {

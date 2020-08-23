@@ -1,21 +1,10 @@
 package roaringIndex
 
 import (
+	"fmt"
 	"github.com/RoaringBitmap/roaring"
+	"time"
 )
-
-func (index *Index) peekQueries(queries []string) []*roaring.Bitmap {
-	peekSets := make([]*roaring.Bitmap, 0, len(queries))
-	for _, query := range queries {
-		querySet, ok := index.properties[query]
-		if ok {
-			peekSets = append(peekSets, querySet)
-		} else {
-			peekSets = append(peekSets, roaring.New())
-		}
-	}
-	return peekSets
-}
 
 func (index *Index) peekObjects(set *roaring.Bitmap) []interface{} {
 	objects := make([]interface{}, set.GetCardinality())
@@ -27,21 +16,29 @@ func (index *Index) peekObjects(set *roaring.Bitmap) []interface{} {
 
 // WithAll searches all objects in index with all of specified properties
 func (index *Index) WithAll(queries ...string) []interface{} {
-	toIntersect := index.peekQueries(queries)
-	resultSet := roaring.FastAnd(toIntersect...)
+	resultSet := index.withAllBitmap(queries)
 	return index.peekObjects(resultSet)
 }
 
 // WithAny searches all objects in index with at least one of specified properties
 func (index *Index) WithAny(queries ...string) []interface{} {
-	toUnite := index.peekQueries(queries)
-	resultSet := roaring.FastOr(toUnite...)
+	resultSet := index.withAnyBitmap(queries)
 	return index.peekObjects(resultSet)
 }
 
 // WithoutAny searches all objects in index without any of specified properties
 func (index *Index) WithoutAny(queries ...string) []interface{} {
-	toUnite := index.peekQueries(queries)
-	resultSet := roaring.AndNot(index.fullSet, roaring.FastOr(toUnite...))
+	resultSet := index.withoutAnyBitmap(queries)
 	return index.peekObjects(resultSet)
+}
+
+// AtInterval searches all objects in [from, to) interval (will crush if from or to is 00.00.0000 or
+// isn't in [1900, 2156))
+func (index* Index) AtInterval (from, to time.Time) ([]interface{}, error) {
+	resultSet, err := index.peekIndices(from, to)
+	if err != nil {
+		return nil, fmt.Errorf("error while finding objects at interval: %w", err)
+	}
+
+	return index.peekObjects(resultSet), nil
 }
