@@ -55,9 +55,6 @@ func CreateIndexWithDatetimeFrom(objects ...IndexedObjectWithDatetime) (*Index, 
 			return nil, fmt.Errorf("incorrect year %d at object \"%s\"", objects[i].Datetime.Year(),
 				objects[i].Object)
 		}
-		if checkZeroTimestamp(timestamp) {
-			return nil, fmt.Errorf("zero timestamp at object %s" , objects[i].Object)
-		}
 	}
 
 	for i := range objects {

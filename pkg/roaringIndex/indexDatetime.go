@@ -45,23 +45,12 @@ func checkTimestampRange (timestamp time.Time) bool {
 		timestamp.Year() >= MaxTimestampYear
 }
 
-func checkZeroTimestamp (timestamp time.Time) bool {
-	return timestamp.Year() == 0 && timestamp.Month() == 0 && timestamp.Day() == 0 &&
-		timestamp.Hour() == 0 && timestamp.Minute() == 0 && timestamp.Second() == 0
-}
-
 func (index *Index) peekIndices(from, to time.Time) (*roaring.Bitmap, error) {
 	if checkTimestampRange(from) {
 		return nil, fmt.Errorf("incorrect from year: %d", from.Year())
 	}
 	if checkTimestampRange(to) {
 		return nil, fmt.Errorf("incorrect to year: %d", from.Year())
-	}
-	if checkZeroTimestamp(from) {
-		return nil, fmt.Errorf("zero from timestamp")
-	}
-	if checkZeroTimestamp(to) {
-		return nil, fmt.Errorf("zero to timestamp")
 	}
 
 	if !to.After(from) {
